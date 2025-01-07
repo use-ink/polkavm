@@ -1,0 +1,21 @@
+[package]
+name = "program-for-bug"
+version = "0.1.0"
+authors = ["[your_name] <[your_email]>"]
+edition = "2021"
+
+[dependencies]
+polkavm-derive = {  version = "0.18.0", default-features = false }
+
+spin = "0.9.8"
+talc = "4.4.2"
+
+[[bin]]
+name = "program-for-bug"
+path = "lib.rs"
+
+[features]
+default = ["std"]
+std = []
+
+[workspace]

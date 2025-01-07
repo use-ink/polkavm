@@ -19,6 +19,7 @@ members = [
 
     "examples/doom",
     "examples/hello-world",
+    "examples/trigger-bug"
 ]
 
 [workspace.package]
