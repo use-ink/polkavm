@@ -2,15 +2,13 @@
 #![no_main]
 
 extern crate core;
-extern crate alloc;
 
 use polkavm_derive::polkavm_export;
 use core::fmt::Write;
 
-#[repr(u32)]
 pub enum Foo {
-    Success = 0,
-    CalleeTrapped = 1,
+    Success,
+    CalleeTrapped,
     Unknown,
 }
 
@@ -44,19 +42,9 @@ extern "C" {
 }
 
 #[polkavm_export(abi = polkavm_derive::default_abi)]
-pub fn call() { }
-
-#[polkavm_export(abi = polkavm_derive::default_abi)]
 pub fn deploy() {
-    // on heap
-    let foo = alloc::format!("heap: {:?}", Foo::Success);
-    unsafe {
-        crate::debug_message(foo.as_ptr(), foo.len() as u32);
-    }
-
-    // on stack
     let mut m = Writer {};
-    let _ = write!(&mut m, "stack: {:?}", Foo::Success);
+    let _ = write!(&mut m, "{:?}", Foo::Success);
 }
 
 #[panic_handler]
@@ -66,13 +54,3 @@ fn panic(_info: &core::panic::PanicInfo) -> ! {
         core::hint::unreachable_unchecked();
     }
 }
-
-use talc::*;
-static mut ARENA: [u8; 10000] = [0; 10000];
-
-#[global_allocator]
-static ALLOCATOR: Talck<spin::Mutex<()>, ClaimOnOom> = Talc::new(unsafe {
-    ClaimOnOom::new(Span::from_array(core::ptr::addr_of!(ARENA).cast_mut()))
-}).lock();
-
-

@@ -5,7 +5,7 @@ authors = ["[your_name] <[your_email]>"]
 edition = "2021"
 
 [dependencies]
-polkavm-derive = {  version = "0.18.0", default-features = false }
+polkavm-derive = { path = "../../crates/polkavm-derive", default-features = false }
 
 spin = "0.9.8"
 talc = "4.4.2"
