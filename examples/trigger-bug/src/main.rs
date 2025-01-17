@@ -9,10 +9,7 @@ fn main() {
 
     // link
     let mut config = polkavm_linker::Config::default();
-
-    // the bug occurs, no matter if `true` set or not set here.
-    // but it has a difference on which artifact is wrongfully output.
-    config.set_optimize(true);
+    config.set_optimize(false);
 
     let orig = fs::read(input_path).expect("Failed to read {input_path:?}");
     let linked = polkavm_linker::program_from_elf(config, orig.as_ref())
