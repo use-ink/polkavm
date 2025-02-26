@@ -1,20 +1,21 @@
 use std::fs;
-use polkavm::{Caller, Config, Engine, Linker, Module, ProgramBlob};
+//use polkavm::{Caller, Config, Engine, Linker, Module, ProgramBlob};
 
 fn main() {
-    env_logger::init();
+    //env_logger::init();
 
     // compile
     let input_path = std::env::var("INPUT").expect("no INPUT in env");
 
     // link
-    let mut config = polkavm_linker::Config::default();
-    config.set_optimize(false);
+    let config = polkavm_linker::Config::default();
+    //config.set_optimize(false);
 
     let orig = fs::read(input_path).expect("Failed to read {input_path:?}");
-    let linked = polkavm_linker::program_from_elf(config, orig.as_ref())
+    let _linked = polkavm_linker::program_from_elf(config, orig.as_ref())
         .unwrap();
 
+    /*
     let blob = ProgramBlob::parse(linked[..].into()).unwrap();
 
     let config = Config::from_env().unwrap();
@@ -44,4 +45,6 @@ fn main() {
     let _result = instance
         .call_typed_and_get_result::<(), ()>(&mut (), "deploy", ())
         .unwrap();
+
+     */
 }
