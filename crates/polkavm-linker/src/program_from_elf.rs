@@ -8505,12 +8505,12 @@ where
                                 base: _,
                                 offset: _,
                             } => {
-                                let Some(dst) = cast_reg_non_zero(dst)? else {
-                                    return Err(ProgramFromElfError::other("R_RISCV_LO12_I with a zero destination register"));
-                                };
-
-                                InstExt::Basic(BasicInst::LoadAbsolute { kind, dst, target })
-                            }
+                                                            if let Some(dst) = cast_reg_non_zero(dst)? {
+                                                                InstExt::Basic(BasicInst::LoadAbsolute { kind, dst, target })
+                                                            } else {
+                                                                InstExt::nop()
+                                                            }
+                        }
                             _ => {
                                 return Err(ProgramFromElfError::other(format!(
                                     "R_RISCV_LO12_I for an unsupported instruction: 0x{inst_raw:08} ({inst:?}) (at {loc})",
